@@ -1,6 +1,6 @@
 #include<iostream>
 #include<vector>
-#include<string>
+#include<cstring>
 #include<cmath>
 #include<sstream>
 
@@ -74,19 +74,19 @@ public:
         string min_combineB = "0";
         int min_step = basic_solution(target, direction, min_combineA);
         string tmp_A, tmp_B;
-        int upper2pow = pow(2, ceil(log(target)/log(2)));
-        for(int i=(target+1)/2;i<upper2pow;i++){
+        for(int i=(target+1)/2;i<=target;i++){
             tmp_A.clear();
             tmp_B.clear();
             int dirA, dirB, stepA, stepB;
-            // consider combination with negitave
-            if(target - i < 0){
-                stepA = min_solution(i, dirA, tmp_A);
-                stepB = min_solution(-(target-i), dirB, tmp_B);
+            if(i==target){
+                // consider a special combination with negitave
+                int upper2pow = pow(2, ceil(log(target)/log(2))) - 1;
+//                 cout << "consider" << endl;
+//                 cout << target - upper2pow << " " << upper2pow << endl;
+                stepA = min_solution(upper2pow, dirA, tmp_A);
+                stepB = min_solution(-(target-upper2pow), dirB, tmp_B);
                 dirB *= -1;
                 if(dirA == 1 && (stepA+1+stepB) < min_step){
-                    cout << "consider" << endl;
-                    cout << target - i << " " << i << endl;
                     min_step = stepA + 1 + stepB;
                     direction = dirB;
                     min_combineA = tmp_A;
@@ -175,6 +175,7 @@ int main(int argc, char const *argv[])
     debug_Solution s;
     if(argc >= 2){
         int target = stoi(argv[1]);
+
         // int tmp;
         // string tmpp;
         // int kk = s.basic_solution(5, tmp, tmpp);
@@ -183,18 +184,29 @@ int main(int argc, char const *argv[])
         int ans = s.racecar(target);
         int count = 0;
         int pos = 0;
-        for(auto i:s.min_solution_dp){
-            cout << pos++ << " " << i << endl;
-            if(i==0){
-                count += 1;
-            }
-            else{
-                count = 0;
-            }
-            if(count > 3){
-                break;
-            }
-        }
+//         for(auto i:s.min_solution_dp){
+//             cout << pos++ << " " << i << endl;
+//             if(i==0){
+//                 count += 1;
+//             }
+//             else{
+//                 count = 0;
+//             }
+//             if(count > 3){
+//                 break;
+//             }
+//         }
+        cout << "ans " << ans << endl;
+    }
+    else{
+        int target = 5;
+        cout << "check" << target << endl;
+        // int tmp;
+        // string tmpp;
+        // int kk = s.basic_solution(5, tmp, tmpp);
+        // cout << kk << endl;
+        // cout << tmpp << endl;
+        int ans = s.racecar(target);
         cout << "ans " << ans << endl;
     }
     return 0;

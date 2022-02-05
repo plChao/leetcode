@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class debug_Solution {
+class Solution {
 public:
     int min_solution_dp[10001] = {0};
     int min_solution_direction_dp[10001] = {0};
@@ -80,7 +80,7 @@ public:
             int dirA, dirB, stepA, stepB;
             if(i==target){
                 // consider a special combination with negitave
-                int upper2pow = pow(2, ceil(log(target)/log(2))) - 1;
+                int upper2pow = pow(2, ceil(log(target+1)/log(2))) - 1;
 //                 cout << "consider" << endl;
 //                 cout << target - upper2pow << " " << upper2pow << endl;
                 stepA = min_solution(upper2pow, dirA, tmp_A);

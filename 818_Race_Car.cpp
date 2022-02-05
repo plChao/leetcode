@@ -193,7 +193,7 @@ public:
                 speed *= -1;
                 continue;
             }
-            int acctimes = lround(log(abs(remain)+1)/log(2));
+            int acctimes = lround(log2(abs(remain)+1));
             instruct_len += acctimes;
             // cout << "near log" << log(abs(remain)+1)/log(2) << endl;
             // cout << "go" << (pow(2, acctimes) - 1)*speed << endl; 
@@ -208,9 +208,8 @@ public:
         direction = speed;
         return instruct_len;
     }
-    bool is2power(int number){
-        int power = floor(log(number)/log(2));
-        return (number == pow(2, power));
+    bool is2power(int x){
+        return (x & (x - 1)) == 0;
     }
     int min_solution(int target, int& direction){
         if(min_solution_dp[target] != 0){
@@ -225,7 +224,7 @@ public:
             int dirA, dirB, stepA, stepB;
             if(i==target){
                 // consider a special combination with negitave
-                int upper2pow = pow(2, ceil(log(target+1)/log(2))) - 1;
+                int upper2pow = pow(2, ceil(log2(target+1))) - 1;
                 // cout << "consider" << endl;
                 // cout << target - upper2pow << " " << upper2pow << endl;
                 stepA = min_solution(upper2pow, dirA);

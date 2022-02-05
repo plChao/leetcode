@@ -6,11 +6,11 @@
 
 using namespace std;
 
-class Solution {
+class debug_Solution {
 public:
-    int min_solution_dp[10001] = {0};
-    int min_solution_direction_dp[10001] = {0};
-    string min_combine_dp[10001];
+    int min_solution_dp[20001] = {0};
+    int min_solution_direction_dp[20001] = {0};
+    string min_combine_dp[20001];
     int basic_solution(int target, int& direction, string& combine){
         if(min_solution_dp[target] != 0){
             direction = min_solution_direction_dp[target];
@@ -170,12 +170,139 @@ public:
     }
 };
 
+class Solution {
+public:
+    int min_solution_dp[20001] = {0};
+    int min_solution_direction_dp[20001] = {0};
+    int basic_solution(int target, int& direction){
+        if(min_solution_dp[target] != 0){
+            direction = min_solution_direction_dp[target];
+            return min_solution_dp[target];
+        }
+        int instruct_len = 0;
+        int remain = target;
+        int speed = 1;
+        // if(target == 2){
+        //     combine = "AARA";
+        //     direction = -1;
+        //     return 4;
+        // }
+        while(remain != 0){
+            if(remain*speed < 0){
+                instruct_len += 1;
+                speed *= -1;
+                continue;
+            }
+            int acctimes = lround(log(abs(remain)+1)/log(2));
+            instruct_len += acctimes;
+            // cout << "near log" << log(abs(remain)+1)/log(2) << endl;
+            // cout << "go" << (pow(2, acctimes) - 1)*speed << endl; 
+            int new_remain = remain - (pow(2, acctimes) - 1)*speed;
+            if(remain*new_remain > 0){
+                instruct_len += 2;
+            }
+            remain = new_remain;
+            // cout << acctimes << endl;
+            // cout << remain << endl;
+        }
+        direction = speed;
+        return instruct_len;
+    }
+    bool is2power(int number){
+        int power = floor(log(number)/log(2));
+        return (number == pow(2, power));
+    }
+    int min_solution(int target, int& direction){
+        if(min_solution_dp[target] != 0){
+            direction = min_solution_direction_dp[target];
+            return min_solution_dp[target];
+        }
+        if(is2power(target+1)){
+            return basic_solution(target, direction);
+        }
+        int min_step = basic_solution(target, direction);
+        for(int i=(target+1)/2;i<=target;i++){
+            int dirA, dirB, stepA, stepB;
+            if(i==target){
+                // consider a special combination with negitave
+                int upper2pow = pow(2, ceil(log(target+1)/log(2))) - 1;
+                // cout << "consider" << endl;
+                // cout << target - upper2pow << " " << upper2pow << endl;
+                stepA = min_solution(upper2pow, dirA);
+                stepB = min_solution(-(target-upper2pow), dirB);
+                dirB *= -1;
+                if(dirA == 1 && (stepA+1+stepB) < min_step){
+                    min_step = stepA + 1 + stepB;
+                    direction = dirB;
+                }
+                // don't consider step B first solution
+            }
+            else{
+                // consider postive combination
+                stepA = min_solution(i, dirA);
+                stepB = min_solution(target-i, dirB);
+                if((stepA + stepB + 1)>= min_step){
+                    continue;
+                }
+                // may have smaller solution
+                if(dirA == 1 && dirB == 1){
+                    if(stepB + 2 + stepA >= min_step){
+                        continue;
+                    }
+                    min_step = stepA + 2 + stepB;
+                    direction = dirB;
+                }
+                else if(dirA == -1 && (dirB == -1 || dirB == 1)){
+                    min_step = stepA + 1 + stepB;
+                    direction = dirB;
+                }
+                else if(dirB == -1 && dirA == 1){
+                    min_step = stepA + 1 + stepB;
+                    direction = dirA;
+                }
+                else{
+                    cout << "not expect dirAB " << dirA << " " << dirB << endl;
+                }
+            }
+        }
+        // filled dp
+
+        min_solution_direction_dp[target] = direction;
+        min_solution_dp[target] = min_step;
+        return min_step;
+    }
+    int racecar(int target) {
+        int notused, ans;
+        if(is2power(target+1)){
+            ans = basic_solution(target, notused);
+        }
+        else{
+            ans = min_solution(target, notused);
+        }
+        
+        return ans;
+        
+    }
+};
+
 int main(int argc, char const *argv[])
 {
     debug_Solution s;
+    Solution sp;
     if(argc >= 2){
         int target = stoi(argv[1]);
-
+        if(target == -1){
+            cout << "check two version " << endl;
+            for(int i=1;i<20;i++){
+                if(s.racecar(i) == sp.racecar(i)){
+                    cout << "same" << i << endl;
+                }
+                else{
+                    cout << "wrong" << i << endl;
+                    break;
+                }
+            }
+        }
         // int tmp;
         // string tmpp;
         // int kk = s.basic_solution(5, tmp, tmpp);

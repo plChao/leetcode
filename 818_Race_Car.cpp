@@ -68,11 +68,23 @@ public:
         }
         if(is2power(target+1)){
             combine.clear();
-            return basic_solution(target, direction, combine);
+            int acctimes = floor(log2(target+1));
+            for(int i=0;i<acctimes;i++){
+                combine.push_back('A');
+            }
+            direction = 1;
+            min_solution_direction_dp[target] = direction;
+            min_combine_dp[target] = combine;
+            min_solution_dp[target] = combine.size();
+            return combine.size();
         }
         string min_combineA;
         string min_combineB = "0";
-        int min_step = basic_solution(target, direction, min_combineA);
+        int min_step = 65536;
+        // if(target < 10){
+        //     min_step = basic_solution(target, direction, min_combineA);
+        // }
+        // int min_step = basic_solution(target, direction, min_combineA);
         string tmp_A, tmp_B;
         for(int i=(target+1)/2;i<=target;i++){
             tmp_A.clear();
@@ -145,10 +157,11 @@ public:
             combine.append(min_combineB);
         }
         else{
+            cout << "there's a problem" << target << endl;
             combine = min_combineA;
         }
         // filled dp
-
+        cout << target << endl;
         min_solution_direction_dp[target] = direction;
         min_combine_dp[target] = combine;
         min_solution_dp[target] = min_step;
@@ -157,6 +170,9 @@ public:
     int racecar(int target) {
         int notused, ans, basic_ans;
         string combine;
+        min_solution_direction_dp[2] = -1;
+        min_combine_dp[2] = "AARA";
+        min_solution_dp[2] = 4;
         if(is2power(target+1)){
             ans = basic_solution(target, notused, combine);
         }
@@ -301,6 +317,7 @@ int main(int argc, char const *argv[])
                     break;
                 }
             }
+            return 0;
         }
         // int tmp;
         // string tmpp;
@@ -310,18 +327,18 @@ int main(int argc, char const *argv[])
         int ans = s.racecar(target);
         int count = 0;
         int pos = 0;
-//         for(auto i:s.min_solution_dp){
-//             cout << pos++ << " " << i << endl;
-//             if(i==0){
-//                 count += 1;
-//             }
-//             else{
-//                 count = 0;
-//             }
-//             if(count > 3){
-//                 break;
-//             }
-//         }
+        // for(auto i:s.min_solution_dp){
+        //     cout << pos++ << " " << i << endl;
+        //     if(i==0){
+        //         count += 1;
+        //     }
+        //     else{
+        //         count = 0;
+        //     }
+        //     if(count > 3){
+        //         break;
+        //     }
+        // }
         cout << "ans " << ans << endl;
     }
     else{

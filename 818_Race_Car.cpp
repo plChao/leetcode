@@ -190,40 +190,6 @@ class Solution {
 public:
     int min_solution_dp[20001] = {0};
     int min_solution_direction_dp[20001] = {0};
-    int basic_solution(int target, int& direction){
-        if(min_solution_dp[target] != 0){
-            direction = min_solution_direction_dp[target];
-            return min_solution_dp[target];
-        }
-        int instruct_len = 0;
-        int remain = target;
-        int speed = 1;
-        // if(target == 2){
-        //     combine = "AARA";
-        //     direction = -1;
-        //     return 4;
-        // }
-        while(remain != 0){
-            if(remain*speed < 0){
-                instruct_len += 1;
-                speed *= -1;
-                continue;
-            }
-            int acctimes = lround(log2(abs(remain)+1));
-            instruct_len += acctimes;
-            // cout << "near log" << log(abs(remain)+1)/log(2) << endl;
-            // cout << "go" << (pow(2, acctimes) - 1)*speed << endl; 
-            int new_remain = remain - (pow(2, acctimes) - 1)*speed;
-            if(remain*new_remain > 0){
-                instruct_len += 2;
-            }
-            remain = new_remain;
-            // cout << acctimes << endl;
-            // cout << remain << endl;
-        }
-        direction = speed;
-        return instruct_len;
-    }
     bool is2power(int x){
         return (x & (x - 1)) == 0;
     }
@@ -233,9 +199,13 @@ public:
             return min_solution_dp[target];
         }
         if(is2power(target+1)){
-            return basic_solution(target, direction);
+            int acctimes = floor(log2(target+1));
+            direction = 1;
+            min_solution_direction_dp[target] = direction;
+            min_solution_dp[target] = acctimes;
+            return acctimes;
         }
-        int min_step = basic_solution(target, direction);
+        int min_step = 65536;
         for(int i=(target+1)/2;i<=target;i++){
             int dirA, dirB, stepA, stepB;
             if(i==target){
@@ -288,12 +258,9 @@ public:
     }
     int racecar(int target) {
         int notused, ans;
-        if(is2power(target+1)){
-            ans = basic_solution(target, notused);
-        }
-        else{
-            ans = min_solution(target, notused);
-        }
+        min_solution_direction_dp[2] = -1;
+        min_solution_dp[2] = 4;
+        ans = min_solution(target, notused);
         
         return ans;
         

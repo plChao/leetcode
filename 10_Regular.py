@@ -10,70 +10,68 @@ class Solution(object):
             if index+1 < len(pattern) and str(pattern[index+1]) == '*':
                 if c == '.':
                     try:
-                        dfa_path[state_index]['.'].add(state_index)
+                        dfa_path[state_index]['.'].append(state_index)
                     except:
-                        dfa_path[state_index]['.'] = set([state_index])
+                        dfa_path[state_index]['.'] = [state_index]
                 else:
                     try:
-                        dfa_path[state_index][c].add(state_index)
+                        dfa_path[state_index][c].append(state_index)
                     except:
-                        dfa_path[state_index][c] = set([state_index])
+                        dfa_path[state_index][c] = [state_index]
                 try:
-                    dfa_path[state_index]['E'].add(state_index+1)
+                    dfa_path[state_index]['E'].append(state_index+1)
                 except:
-                    dfa_path[state_index]['E'] = set([state_index+1])
+                    dfa_path[state_index]['E'] = [state_index+1]
                 state_index += 1
                 dfa_path[state_index] = {}
                 index += 1
             else:
                 if c == '.':
                     try:
-                        dfa_path[state_index]['.'].add(state_index + 1)
+                        dfa_path[state_index]['.'].append(state_index + 1)
                     except:
-                        dfa_path[state_index]['.'] = set([state_index + 1])
+                        dfa_path[state_index]['.'] = [state_index + 1]
                 else:
                     try:
-                        dfa_path[state_index][c].add(state_index + 1)
+                        dfa_path[state_index][c].append(state_index + 1)
                     except:
-                        dfa_path[state_index][c] = set([state_index + 1])
+                        dfa_path[state_index][c] = [state_index + 1]
                 state_index += 1
                 dfa_path[state_index] = {}
             index += 1
         return state_index
     def operate_nfa(self, s, end_state):
-        state_list = set([0])
+        state_list = [0]
         for c in s:
             pre_len = -1
             while pre_len != len(state_list):
                 pre_len = len(state_list)
-                next_state_list = state_list.copy()
                 for state in state_list:
                     try:
-                        next_state_list.update(dfa_path[state]['E'])
+                        state_list += dfa_path[state]['E']
                     except:
                         pass
-                state_list = next_state_list
-            next_state_list = set()
+                    state_list = list(set(state_list))
+            next_state_list = []
             for state in state_list:
                 try:
-                    next_state_list.update(dfa_path[state][c])
+                    next_state_list += dfa_path[state][c]
                 except:
                     pass
                 try:
-                    next_state_list.update(dfa_path[state]['.'])
+                    next_state_list += dfa_path[state]['.']
                 except:
                     pass
             state_list = next_state_list
         pre_len = -1
         while pre_len != len(state_list):
             pre_len = len(state_list)
-            next_state_list = state_list.copy()
             for state in state_list:
                 try:
-                    next_state_list.update(dfa_path[state]['E'])
+                    state_list += dfa_path[state]['E']
                 except:
                     pass
-            state_list = next_state_list
+                state_list = list(set(state_list))
         if end_state in state_list:
             return True
         else:

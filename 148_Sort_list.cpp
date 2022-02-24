@@ -29,8 +29,16 @@ void print_list(ListNode *head){
 }
 class Solution {
 public:
+    ListNode* get_tail(ListNode *head){
+        ListNode *cur;
+        cur = head;
+        while(cur->next != nullptr){
+            cur = cur->next;
+        }
+        return cur;
+    }
     ListNode* quicksort(ListNode *head){
-        ListNode *left, *right=nullptr;
+        ListNode *left=nullptr, *right=nullptr;
         ListNode *cur, *next_cur;
         if(head->next == nullptr){
             return head;
@@ -49,27 +57,31 @@ public:
             cur = next_cur;
         }
         if(left == nullptr){
-            quicksort(right);
+            right = quicksort(right);
             head->next = right;
-            print_list(head);
+            // print_list(head);
             return head;
         }
         else if(right == nullptr){
-            quicksort(left);
-            left->next = head;
-            print_list(left);
+            left = quicksort(left);
+            get_tail(left)->next = head;
+            head->next = nullptr;
+            // print_list(left);
             return left;
         }
         else{
-            quicksort(left);
-            quicksort(right);
-            left->next = head;
+            left = quicksort(left);
+            right = quicksort(right);
+            get_tail(left)->next = head;
             head->next = right;
-            print_list(left);
+            // print_list(left);
             return left;
         }
     }
     ListNode* sortList(ListNode* head) {
+        if(head == nullptr){
+            return head;
+        }
         return quicksort(head);
     }
 };

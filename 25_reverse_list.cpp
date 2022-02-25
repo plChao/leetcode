@@ -31,18 +31,19 @@ void print_list(ListNode *head){
 
 class Solution {
 public:
-    ListNode* reverselist(ListNode* head){
-        ListNode *newhead = nullptr, *next_cur;
+    void reverselist(ListNode*& head, ListNode*& tail){
+        ListNode *next_cur;
         ListNode *cur = head;
+        tail = head;
+        head = nullptr;
         while(cur != nullptr){
             next_cur = cur->next;
 
-            cur->next = newhead;
-            newhead = cur;
+            cur->next = head;
+            head = cur;
             
             cur = next_cur;
         }
-        return newhead;
     }
     ListNode* reverseKGroup(ListNode* head, int k) {
         int pos = 1;
@@ -59,8 +60,7 @@ public:
                 pos_tail = tar_tail->next;
                 tar_tail->next = nullptr;
                 // print_list(tar_head);
-                tar_tail = tar_head;
-                tar_head  = reverselist(tar_head);
+                reverselist(tar_head, tar_tail);
                 // print_list(tar_head);
                 if(pre_head == nullptr){
                     head = tar_head;
@@ -82,14 +82,15 @@ public:
 int main(int argc, char const *argv[])
 {   
     int k = atoi(argv[1]);
-    ListNode* head = nullptr;
+    ListNode* head = nullptr, *tail;
     ListNode* cur;
     for(int i=0;i<5;i++){
         cur = new ListNode(i+1, head);
+        if(i==0) tail = cur;
         head = cur;
     }
     Solution s = Solution();
-    head = s.reverselist(head);
+    s.reverselist(head, tail);
     print_list(head);
     head = s.reverseKGroup(head, k);
     cout << "out" << endl;

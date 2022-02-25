@@ -1,6 +1,7 @@
 #include<iostream>
 #include<vector>
 #include<cstring>
+#include<algorithm>
 
 using namespace std;
 struct ListNode {
@@ -37,52 +38,25 @@ public:
         }
         return cur;
     }
-    ListNode* quicksort(ListNode *head){
-        ListNode *left=nullptr, *right=nullptr;
-        ListNode *cur, *next_cur;
-        if(head->next == nullptr){
-            return head;
-        }
-        cur = head->next;
-        while(cur != nullptr){
-            next_cur = cur->next;
-            if(cur->val < head->val){
-                cur->next = left;
-                left = cur;
-            }
-            else{
-                cur->next = right;
-                right = cur;
-            }
-            cur = next_cur;
-        }
-        if(left == nullptr){
-            right = quicksort(right);
-            head->next = right;
-            // print_list(head);
-            return head;
-        }
-        else if(right == nullptr){
-            left = quicksort(left);
-            get_tail(left)->next = head;
-            head->next = nullptr;
-            // print_list(left);
-            return left;
-        }
-        else{
-            left = quicksort(left);
-            right = quicksort(right);
-            get_tail(left)->next = head;
-            head->next = right;
-            // print_list(left);
-            return left;
-        }
-    }
     ListNode* sortList(ListNode* head) {
         if(head == nullptr){
             return head;
         }
-        return quicksort(head);
+        vector<int> copy;
+        copy.reserve(50000);
+        ListNode *cur;
+        cur = head;
+        while(cur != nullptr){
+            copy.push_back(cur->val);
+            cur = cur->next;
+        }
+        sort(copy.begin(), copy.end());
+        cur = head;
+        for(auto i:copy){
+            cur->val = i;
+            cur = cur->next;
+        }
+        return head;
     }
 };
 int main(int argc, char const *argv[])
@@ -96,7 +70,7 @@ int main(int argc, char const *argv[])
     }
     print_list(head);
     Solution s = Solution();
-    head = s.quicksort(head);
+    head = s.sortList(head);
     cout << "out" << endl;
     print_list(head);
     return 0;

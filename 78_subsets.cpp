@@ -14,19 +14,18 @@ class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
         vector<vector<int>> result;
-        if(nums.size() == 1){
-            vector<int> empty = {};
-            result.push_back(empty);
-            result.push_back(nums);
-            return result;
-        }
-        int last_ele = nums.back();
-        nums.pop_back();
-        vector<vector<int>> sub_result = subsets(nums);
-        for(auto i:sub_result){
-            result.push_back(i);
-            i.push_back(last_ele);
-            result.push_back(i);
+        vector<int> tmp;
+        int sets_num = 1 << nums.size();
+        tmp.reserve(nums.size());
+        result.reserve(sets_num);
+        for(int i=0;i<sets_num;i++){
+            for(int k=0;k<nums.size();k++){
+                if( (i & (1 << k)) >> k == 1){
+                    tmp.push_back(nums[k]);
+                }
+            }
+            result.push_back(tmp);
+            tmp.clear();
         }
         return result;
     }

@@ -2,6 +2,7 @@
 #include<vector>
 #include<cstring>
 #include<algorithm>
+#include<unordered_map>
 
 using namespace std;
 void print_int_vec(vector<string> tar){
@@ -11,37 +12,27 @@ void print_int_vec(vector<string> tar){
     cout << endl;
 }
 class Solution {
-public:
-    bool differByOne(vector<string>& dict) {
-        if(dict.size() <= 1 || dict[0].size() == 0){
+    public:
+        unordered_map<string, bool> all_set;
+        bool differByOne(vector<string>& dict) {
+            if(dict.size() <= 1 || dict[0].size() == 0){
+                return false;
+            }
+            int str_len = dict[0].size();
+            for(int i=0;i<dict.size();i++){
+                for(int j=0;j<str_len;j++){
+                    string tmp = string(dict[i]);
+                    tmp[j] = '_';
+                    if(all_set.find(tmp) != all_set.end()){
+                        return true;
+                    }
+                    else{
+                        all_set[tmp] = true;
+                    }
+                }
+            }
             return false;
         }
-        if(dict[0].size() == 1 && dict.size() > 1){
-            // only one position different
-            return true;
-        }
-        int str_len = dict[0].size();
-        vector<string> table[str_len][30];
-        for(int i=0;i<dict.size();i++){
-            for(int j=0;j<str_len;j++){
-                string tmp = string(dict[i]);
-                int char_index = tmp[j] - 'a';
-                tmp.erase(tmp.begin()+j);
-                table[j][char_index].push_back(tmp);
-            }
-        }
-        bool result = false;
-        for(int i=0;i<str_len;i++){
-            for(int j=0;j<26;j++){
-                result = result || differByOne(table[i][j]);
-                // if(table[i][j].size() > 0){
-                //     print_int_vec(table[i][j]);
-                //     cout << result << endl;
-                // }
-            }
-        }
-        return result;
-    }
 };
 int main(int argc, char const *argv[])
 {   

@@ -21,3 +21,6 @@
     ```
     (n & (1 << k)) >> k
     ```
+## 23 merge k sorted list
+1. 有 priority queue 的用法，有空可以看他的第二個參數是什麼
+2. 第三個參數的 cmp (a, b) 中，是問 b 的優先程度有沒有比 a 大，如果是要 max-queue，就回傳 a < b

@@ -2,8 +2,8 @@
 #include <vector>
 #include <cstring>
 #include <algorithm>
-#include <unordered_map>
 #include <cmath>
+#include <climits>
 
 using namespace std;
 void print_int_vec(vector<int> tar){
@@ -73,12 +73,12 @@ int step_between_stack(vector<int> a, vector<int> b){
 }
 void dfs_count(vector<int> weight_stack, int ** Array, int exersize_index, int current_step, int Exersizenum, int Weightnum)
 {
-    cout << "stack of " << exersize_index << " " << current_step << endl;
-    print_int_vec(weight_stack);
+    // cout << "stack of " << exersize_index << " " << current_step << endl;
+    // print_int_vec(weight_stack);
     if (current_step > Minstep)
     {
         // puring
-        cout << "puring" << current_step << endl;
+        // cout << "puring" << current_step << endl;
         Count_possible += 1;
         return;
     }
@@ -92,47 +92,47 @@ void dfs_count(vector<int> weight_stack, int ** Array, int exersize_index, int c
         Count_possible += 1;
         return;
     }
-    else if(exersize_index == Exersizenum-1){
-        int diff_weight[Weightnum+1] = {0};
-        for (int i = 0; i < Weightnum; i++)
-        {
-            diff_weight[i] = Array[exersize_index + 1][i] - Array[exersize_index][i];
-        }
-        while (Exceeed(diff_weight, Weightnum))
-        {
-            // print int array diff_weight
-            for(int i=0;i<=Weightnum;i++){
-                cout << diff_weight[i] << " ";
-            }
-            cout << endl;
+    // else if(exersize_index == Exersizenum-1){
+    //     int diff_weight[Weightnum+1] = {0};
+    //     for (int i = 0; i < Weightnum; i++)
+    //     {
+    //         diff_weight[i] = Array[exersize_index + 1][i] - Array[exersize_index][i];
+    //     }
+    //     while (Exceeed(diff_weight, Weightnum))
+    //     {
+    //         // print int array diff_weight
 
-            if(weight_stack.size() == 0){
-                cout << "Error: empty stack" << endl;
-                break;
-            }
+    //         // for(int i=0;i<=Weightnum;i++){
+    //         //     cout << diff_weight[i] << " ";
+    //         // }
+    //         // cout << endl;
 
-            diff_weight[weight_stack.back() ] += 1;
-            weight_stack.pop_back();
-            current_step += 1;
-        }
-        vector<int> elements_needed;
-        for (int i = 0; i < Weightnum; i++)
-        {
-            for (int j = 0; j < diff_weight[i]; j++)
-            {
-                elements_needed.push_back(i+1);
-            }
-        }
-        current_step += elements_needed.size();
-        weight_stack.insert(weight_stack.end(), elements_needed.begin(), elements_needed.end());
-        dfs_count(weight_stack, Array, exersize_index + 1, current_step, Exersizenum, Weightnum);
-        return;
-    }
+    //         if(weight_stack.size() == 0){
+    //             // cout << "Error: empty stack" << endl;
+    //             break;
+    //         }
+
+    //         diff_weight[weight_stack.back()] += 1;
+    //         weight_stack.pop_back();
+    //         current_step += 1;
+    //     }
+    //     vector<int> elements_needed;
+    //     for (int i = 0; i < Weightnum; i++)
+    //     {
+    //         for (int j = 0; j < diff_weight[i]; j++)
+    //         {
+    //             elements_needed.push_back(i+1);
+    //         }
+    //     }
+    //     current_step += elements_needed.size();
+    //     weight_stack.insert(weight_stack.end(), elements_needed.begin(), elements_needed.end());
+    //     dfs_count(weight_stack, Array, exersize_index + 1, current_step, Exersizenum, Weightnum);
+    //     return;
+    // }
     else
     {
         vector<vector<int>> possible_combine;
         vector<int> elements_needed;
-        cout << "here " << exersize_index+1 << endl;
         for (int i = 0; i < Weightnum; i++)
         {
             for (int j = 0; j < Array[exersize_index+1][i]; j++)
@@ -140,17 +140,14 @@ void dfs_count(vector<int> weight_stack, int ** Array, int exersize_index, int c
                 elements_needed.push_back(i+1);
             }
         }
-        cout << "after here " << exersize_index+1 << endl;
-        print_int_vec(elements_needed);
         // diff weight
         possible_combine = combination(elements_needed, Weightnum);
-        cout << "stuck?" << endl;
         for(auto ele : possible_combine)
         {
-            cout << "ori ";
-            print_int_vec(weight_stack);
-            cout << "tar ";
-            print_int_vec(ele);
+            // cout << "ori ";
+            // print_int_vec(weight_stack);
+            // cout << "tar ";
+            // print_int_vec(ele);
 
             int steps = step_between_stack(weight_stack, ele);
             vector<int> tmp = ele;
@@ -158,6 +155,15 @@ void dfs_count(vector<int> weight_stack, int ** Array, int exersize_index, int c
         }
         return;
     }
+}
+void test(){
+    vector<vector<int>> possible_combine;
+    vector<int> tt{1, 1, 2, 2, 3, 3, 3};
+    possible_combine = combination(tt, 3);
+    for(auto ele:possible_combine){
+        print_int_vec(ele);
+    }
+    return;
 }
 
 int main(int argc, char const *argv[])
@@ -187,17 +193,21 @@ int main(int argc, char const *argv[])
                 cin >> Array[i][j];
             }
         }
-        // out check
-        for (int i = 1; i <= Excerise; i++)
+        int current_step = 0;
+        for (int j = 0; j < Weight; j++)
         {
-            for (int j = 0; j < Weight; j++)
-            {
-                cout << Array[i][j] << " ";
+            int min_val = INT_MAX;
+            for(int i=1; i<=Excerise; i++){
+                if(Array[i][j] < min_val){
+                    min_val = Array[i][j];
+                }
             }
-            cout << endl;
+            for(int i=1; i<=Excerise; i++){
+                Array[i][j] -= min_val;
+            }
+            current_step += 2*min_val;
         }
         // dfs
-        int current_step = 0;
         for (int i = 0; i < Weight; i++)
         {
             current_step += Array[Excerise][i];
@@ -205,7 +215,6 @@ int main(int argc, char const *argv[])
         vector<int> weight_stack;
         dfs_count(weight_stack, Array, 0, current_step, Excerise, Weight);
         cout << Minstep << endl;
-        cout << Count_possible << endl;
         Minstep = INT_MAX;
     }
     return 0;

@@ -62,6 +62,13 @@ public:
         }
         return;
     }
+    void free_vector(){
+        for(auto i:possible_value){
+            i.clear();
+        }
+        possible_value.clear();
+        four_cards_array.clear();
+    }
     int index_of_combination(vector<int> & indexs){
         int res = 0;
         for(int i:indexs){
@@ -69,24 +76,28 @@ public:
         }
         return res;
     }
-    set<float> get_possible_value_of_cards(vector<int> card_index){
+    set<float> * get_possible_value_of_cards(vector<int> card_index){
         if(possible_value[index_of_combination(card_index)].size() != 0){
-            cout << "dp" << endl;
-            return possible_value[index_of_combination(card_index)];
+            // cout << "dp" << endl;
+            return &(possible_value[index_of_combination(card_index)]);
         }
         else if(card_index.size() == 1){
             possible_value[index_of_combination(card_index)].insert(four_cards_array[card_index[0]]);
-            return possible_value[index_of_combination(card_index)];
+            return &(possible_value[index_of_combination(card_index)]);
         }
         else{
             set<float> *res = &(possible_value[index_of_combination(card_index)]);
-            set<float> tmp_set;
+            set<float> *tmp_set;
             for(int i=0;i< card_index.size();i++){
                 float card_value = four_cards_array[card_index[i]];
                 vector<int> tmp = card_index;
                 tmp.erase(tmp.begin()+i);
                 tmp_set = get_possible_value_of_cards(tmp);
-                for (auto &s : tmp_set){
+                if(tmp_set->size() == 0){
+                    cout << "Error: empty" << endl;
+                    print_int_vec(tmp);
+                }
+                for (auto &s : *tmp_set){
                     res->insert(card_value * s);
                     res->insert(card_value + s);
 
@@ -98,15 +109,14 @@ public:
             }
             if(card_index.size() == 4){
                 if(res->find(24) != res->end()){
-                    return *res;
+                    return res;
                 }
                 vector<int> input = {1, 1, 2, 2};
                 vector<int> elements = {1, 2};
-                vector<vector<int>> comb = combination(input, elements);
+                int comb[6][4] = {{2, 2, 1, 1}, {2, 1, 2, 1}, {1, 2, 2, 1}, {2, 1, 1, 2}, {1, 2, 1, 2}, {1, 1, 2, 2}};
                 vector<int> tmp1;
                 vector<int> tmp2;
-                set<float> pos_tmp1;
-                set<float> pos_tmp2;
+                set<float> *pos_tmp1, *pos_tmp2;
                 for(auto cc:comb){
                     for(int i=0;i<4;i++){
                         if(cc[i] == 1){
@@ -118,8 +128,8 @@ public:
                     }
                     pos_tmp1 = get_possible_value_of_cards(tmp1);
                     pos_tmp2 = get_possible_value_of_cards(tmp2);
-                    for(auto &first:pos_tmp1){
-                        for(auto &second:pos_tmp2){
+                    for(auto &first:*pos_tmp1){
+                        for(auto &second:*pos_tmp2){
                             res->insert(first * second);
                             res->insert(first + second);
 
@@ -132,11 +142,9 @@ public:
 
                     tmp1.clear();
                     tmp2.clear();
-                    pos_tmp1.clear();
-                    pos_tmp2.clear();
                 }
             }
-            return *res;
+            return res;
         }
     }
     bool judgePoint24(vector<int>& cards){
@@ -146,8 +154,10 @@ public:
             four_cards_array.push_back(cards[i]);
             index.push_back(i);
         }
-        set<float> res = get_possible_value_of_cards(index);
-        return res.find(24) != res.end();
+        set<float> *res = get_possible_value_of_cards(index);
+        bool ans = res->find(24) != res->end();
+        // free_vector();
+        return ans;
     }
 };
 void printBits(size_t const size, void const * const ptr)
@@ -166,21 +176,23 @@ void printBits(size_t const size, void const * const ptr)
 }
 int main(int argc, char const *argv[])
 {   
-    // vector<vector<int>> comb;
-    // vector<int> all = {7, 7, 9, 10};
-    // vector<int> element = {7, 9, 10};
-    // comb = combination(all, element);
+    Solution solve;
+    // vector<int> input = {1, 1, 2, 2};
+    // vector<int> elements = {1, 2};
+    // vector<vector<int>> comb = solve.combination(input, elements);
     // cout << comb.size() << endl;
     // for(auto i:comb){
     //     print_int_vec(i);
     // }
+    // return 0;
     
-    Solution solve;
-    vector<int> vec{1, 2, 1, 2};
+    vector<int> vec{3, 3, 8, 8};
     cout << solve.judgePoint24(vec) << endl;
     // int idx = 0;
     // for(auto i : solve.possible_value){
     //     printBits(1, &idx);
+    //     if(i.size() == 0)
+    //         cout << "empty" <<endl;
     //     for (auto &s : i){
     //         cout << s << " ";   
     //     }

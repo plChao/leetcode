@@ -93,10 +93,6 @@ public:
                 vector<int> tmp = card_index;
                 tmp.erase(tmp.begin()+i);
                 tmp_set = get_possible_value_of_cards(tmp);
-                if(tmp_set->size() == 0){
-                    cout << "Error: empty" << endl;
-                    print_int_vec(tmp);
-                }
                 for (auto &s : *tmp_set){
                     res->insert(card_value * s);
                     res->insert(card_value + s);
@@ -156,6 +152,17 @@ public:
         }
         set<float> *res = get_possible_value_of_cards(index);
         bool ans = res->find(24) != res->end();
+        if(!ans){
+            auto lower = res->lower_bound(24);
+            auto upper = res->upper_bound(24);
+            cout << *lower - 24 << " " << *upper - 24 << endl;
+            if( *lower - 24 >= 0 && *lower - 24 <= 0.00001){
+                ans = true;
+            }
+            else if(*upper - 24 >= 0 && *upper - 24 <= 0.00001){
+                ans = true;
+            }
+        }
         // free_vector();
         return ans;
     }
@@ -177,7 +184,7 @@ void printBits(size_t const size, void const * const ptr)
 int main(int argc, char const *argv[])
 {   
     Solution solve;
-    // vector<int> input = {1, 1, 2, 2};
+    // vector<int> input = {1, 1, 2, 2}; 
     // vector<int> elements = {1, 2};
     // vector<vector<int>> comb = solve.combination(input, elements);
     // cout << comb.size() << endl;
@@ -186,7 +193,8 @@ int main(int argc, char const *argv[])
     // }
     // return 0;
     
-    vector<int> vec{3, 3, 8, 8};
+    vector<int> vec{1, 2, 1, 2};
+    // vector<int> vec{3, 3, 8, 8}; // with round off error
     cout << solve.judgePoint24(vec) << endl;
     // int idx = 0;
     // for(auto i : solve.possible_value){

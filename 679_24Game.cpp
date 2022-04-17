@@ -51,8 +51,8 @@ vector<vector<int>> combination(vector<int> all, vector<int> element)
 int main(int argc, char const *argv[])
 {   
     vector<vector<int>> comb;
-    vector<int> all = {7, 8, 9, 10};
-    vector<int> element = {7, 8, 9, 10};
+    vector<int> all = {7, 7, 9, 10};
+    vector<int> element = {7, 9, 10};
     comb = combination(all, element);
     cout << comb.size() << endl;
     for(auto i:comb){

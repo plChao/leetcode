@@ -33,23 +33,18 @@ public:
             auto ptr1 = res.begin();
             for(int i=1;i<nums.size();i++){
                 print_int_vec(res);
-                auto ptr2 = nums[i].begin();
-                while(ptr1 != res.end() && ptr2 != nums[i].end()){
-                    if(ptr2 == nums[i].end()){
-                        cout << "true" << endl;
-                        break;
+                int k = 0, m = 0;
+                for(;k<res.size() && m<nums[i].size();){
+                    if(res[k] == nums[i][m]){
+                        new_res.push_back(res[k]);
+                        k++;
+                        m++;
                     }
-                    if(*ptr1 == *ptr2){
-                        ptr1++;
-                        ptr2++;
-                        new_res.push_back(*ptr1);
-                        cout << *ptr1 << *ptr2 << endl;
-                    }
-                    else if(*ptr1 < *ptr2){
-                        ptr1++;
+                    else if(res[k] < nums[i][m]){
+                        k++;
                     }
                     else{
-                        ptr2++;
+                        m++;
                     }
                 }
                 print_int_vec(new_res);

@@ -38,14 +38,6 @@ public:
             flowers_num += 1;
             pq.push(flowers[i][1]);
             change_of_flowers.push_back({flowers[i][0], flowers_num});
-            // while (pq.size() > 0 && pq.top() == flowers[i][0])
-            // {
-            //     flowers_num -= 1;
-            //     pq.pop();
-            // }
-            // if(i == flowers.size() - 1 or flowers[i+1][0] > flowers[i][0] + 1){
-            //     change_of_flowers.push_back({flowers[i][0]+1, flowers_num});
-            // }
         }
         while(pq.size() > 0){
             flowers_num -= 1;

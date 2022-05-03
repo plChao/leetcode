@@ -68,6 +68,16 @@
 2. 對答案
     1. 因為這題是找"能不能"，所以用 DFS 尋找會比較快，一找到就可以結束程式
     2. 組合任兩張牌成新的值，把新的值當作新的排往下遞迴組合
+### 44
+1. 分析
+    1. 如果 pattern[0] == * => (看 text 跟 pattern[1:] 有沒有 match) 或 (text[1:] 跟 pattern 有沒有 match)
+    2. first_match = pattern[0] in {text[0], '?'} => 看 text[1:] 跟 pattern[1:] 有沒有 match
+    3. 時間複雜度 T(t, p) = T(t, p-1) + T(t-1, p) + T(t-1, p-1) + O(1)
+        1. 沒有 DP: T(t, p) = O(2^(T+P))
+        2. DP: T(t, p) = O(tp)
+2. 對答案
+3. 實作
+    1. 要考慮好 recursive 的邊緣 case
 ## 學會的技術
 ### 1
 #### 使用 hash_map

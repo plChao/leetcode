@@ -10,8 +10,8 @@ public:
     bool matching(string &s, string &p, int i, int j, int ** memo){
         // cout << i << " " << j << endl;
         if(i == s.size() && p[j] == '*'){
-            return true;
-            // return matching(s, p, i, j+1, memo);
+            // return true;
+            return matching(s, p, i, j+1, memo);
         }
         if(memo[i][j] != 0){
             return memo[i][j] == -1?false:true;

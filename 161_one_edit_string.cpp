@@ -6,26 +6,16 @@
 using namespace std;
 class Solution {
 public:
-    bool isOneEditDistance(string s, string t) {
-        string l, short_str;
-        if(s.size() > t.size()){
-            if(s.size() - t.size() > 1){
-                return false;
-            }
-            l = s;
-            short_str = t;
+    bool isOneEditDistance(string l, string short_str) {
+        if(short_str.size() > l.size()){
+            return isOneEditDistance(short_str, l);
         }
-        else{
-            if(t.size() - s.size() > 1){
-                return false;
-            }
-            l = t;
-            short_str = s;
+        if(l.size() - short_str.size() > 1){
+            return false;
         }
         
         if(l.size() == short_str.size()){
             if(l == short_str){
-                cout << "return here" << endl;
                 return false;
             }
             for(int i=0;i<l.size();i++){
@@ -47,7 +37,7 @@ public:
                 }
             }   
         }
-        cout << l << " " << short_str << endl;
+        // cout << l << " " << short_str << endl;
         if(l == short_str){
             return true;
         }

@@ -68,6 +68,28 @@
 2. 對答案
     1. 因為這題是找"能不能"，所以用 DFS 尋找會比較快，一找到就可以結束程式
     2. 組合任兩張牌成新的值，把新的值當作新的排往下遞迴組合
+### 161
+1. 分析
+    1. 原本想得太複雜
+    2. 要考慮所有 case
+        1. 長度一樣
+        2. 長度差一
+            1. 把長的 pop 掉不一樣的
+            2. :star: 長的最後一個位置容易漏掉
+        3. 長度差一以上
+            1. false
+2. 對答案
+3. 實作
+    1. 可以用以下好看方法判斷誰長誰短
+        ```c++=0
+            bool isOneEditDistance(string l, string short_str) {
+                if(short_str.size() > l.size()){
+                    return isOneEditDistance(short_str, l);
+                }
+                // we can promise l.size() > short_str.size() here
+                // some code ...
+            }
+        ```
 ### 44
 1. 分析
     1. 如果 pattern[0] == * => (看 text 跟 pattern[1:] 有沒有 match) 或 (text[1:] 跟 pattern 有沒有 match)

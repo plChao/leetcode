@@ -20,19 +20,21 @@ public:
     int minimumAverageDifference(vector<int>& nums) {
         double min_avg_diff = INT_MAX, tmp;
         int min_index = -1;
-        double first_sum = 0;
-        double second_sum = sumofvec(nums);
+        double first_sum = sumofvec(nums);
+        double second_sum = 0;
         for(int i=nums.size()-1;i>=0;i--){
-            first_sum += nums[i];
-            second_sum -= nums[i];
             int fi_avg = first_sum / (i + 1);
-            int sec_avg = (second_sum == 0?0:(second_sum / (nums.size() - i - 1)));
+            int sec_avg = ((nums.size() - i - 1) == 0?0:(second_sum / (nums.size() - i - 1)));
             int ans = fi_avg - sec_avg;
             tmp = (fi_avg > sec_avg)?ans:-ans;
             if(tmp <= min_avg_diff){
                 min_index = i;
                 min_avg_diff = tmp;
             }
+            // cout << i << " " << tmp << endl; 
+            // cout << "f " << first_sum << "s " << second_sum << endl;
+            first_sum -= nums[i];
+            second_sum += nums[i];
         }
         return min_index;
     }

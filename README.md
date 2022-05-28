@@ -10,6 +10,7 @@
     2. loop 所有的數字，二分搜剩下的數字
         1. 因為不會排除原本的數，那怎麼確認有重複的數? (upper_bound - lower_bound) > 1
             不用排除，改成搜"後面"的數字
+            因為 sort 之後要看原本的 index 是什麼，所以難以實做。
     3. loop 所有的數字，二分搜剩下的數字(使用 map)
         1. map<key=value, vector<int>=indexs of values>
         2. Time: O(2*nlogn)
@@ -59,6 +60,14 @@
     2. 用一個 queue 來記錄 LRU(least recently used) 的 block 是誰
         1. 但是如果有用到已經在 queue 紀錄裡的 block 要把它刪掉 => 為了有效率的刪除，queue 本身會用 link list 來做
         2. 為了有效率的搜尋上一次紀錄在 queue 的哪裡，會使用 unorder_map<key=key, value=* queue_block> 來在 O(1) 的複雜度來找到位置
+### 56_merge_interval
+1. 分析
+    1. 原本想說是 greedy 找 max independent interval。
+    2. 結果有很多不同的情況
+2. 對答案
+    1. 一開始沒對直接實做
+3. 實做
+    1. \[tech\] 在 class 內部的 costum_cmp (要給 sort) 的，要加 static 以去除原本預設的第一個 this 參數。詳情見[這篇](https://blog.csdn.net/u010982765/article/details/79021426) 
 ### 679
 1. 分析
     1. 用一個 array 來記錄每種組合可以組出的數量 Ex. A[3] = A[0011] 代表使用後兩張牌可以組出的值

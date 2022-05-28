@@ -21,8 +21,9 @@ public:
         vector<int> ans;
         for(int i=0;i<nums.size();i++){
             int remain = target - nums[i];
-            if(mymap.find(remain) != mymap.end()){
-                ans.push_back(mymap[remain]);
+            auto it = mymap.find(remain);
+            if(it != mymap.end()){
+                ans.push_back(it->second);
                 ans.push_back(i);
                 return ans;
             }

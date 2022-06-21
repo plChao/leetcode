@@ -28,12 +28,21 @@
         1. 原本 hash_map 要存多個 index 來看是不是有重複
         2. [hash_map-2]() 進化1: 因為只有一個跟兩個的差別(三個重複跟兩個重複是一樣的)，所以用後面的 index 蓋掉前面的 index，然後確認的時候只要 hash_map 裡的 index 跟自己不同，就代表有重複。
         3. [hash_map-3]() 進化2: 可以邊加邊檢查，因為目前檢查跟前面數字的組合，跟後面數字組合由後面數字檢查。因為是先找之後才把目前元素加進去，所以不用檢查 index 是否跟自己不同。
+### 191_Number_of_1_Bits
+1. 分析
+    1. 最差做 32 次就是 O(1)
+    2. 看一個數字 num 的第 n 位是不是 1
+        1. ( num >> n ) && 1
+    2. 取 num 最低位的 1
+        1. ( num & num - 1 ) 去除最低位的 1
+        2. num - ( num & num - 1 ) 或 num & -num 得到最低位的 1
+        3. $log_2( 最低位的 1 值 ) 來拿到位置$  
 ### 147_LRU_cache
 1. 分析
     1. 要求
         1. 如果沒放滿，把 key map 到 memory index，然後放進 memory index 裡
         2. 如果滿了，找 LRU 的 key 的 index，把它換成新的 
-    1. 用 unordered_map<key=key, value=memory_index> 來記錄 key 存在哪個地址，或是可以直接存 value?
+    1. 用 unordered_map <key=key, value=memory_index> 來記錄 key 存在哪個地址，或是可以直接存 value?
     2. 用一個 queue 來記錄 LRU(least recently used) 的 block 是誰
         1. 但是如果有用到已經在 queue 紀錄裡的 block 要把它刪掉
     3. Time
@@ -57,7 +66,7 @@
                     2. **delete record from queue (link list): O(1)**
                 2. return  unordered_map[key]
 2. 對答案
-    2. 用一個 queue 來記錄 LRU(least recently used) 的 block 是誰
+    1. 用一個 queue 來記錄 LRU(least recently used) 的 block 是誰
         1. 但是如果有用到已經在 queue 紀錄裡的 block 要把它刪掉 => 為了有效率的刪除，queue 本身會用 link list 來做
         2. 為了有效率的搜尋上一次紀錄在 queue 的哪裡，會使用 unorder_map<key=key, value=* queue_block> 來在 O(1) 的複雜度來找到位置
 ### 56_merge_interval

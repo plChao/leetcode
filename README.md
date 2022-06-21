@@ -153,3 +153,16 @@
 ### 23 merge k sorted list
 1. 有 priority queue 的用法，有空可以看他的第二個參數是什麼
 2. 第三個參數的 cmp (a, b) 中，是問 b 的優先程度有沒有比 a 大，如果是要 max-queue，就回傳 a < b
+## leet_code_crack_algro
+### binary search
+#### 1060_Missing_Element_in_Sorted_Array
+1. 分析
+    1. binary search: O(log n)
+2. 實作
+    1. 用 `num[pos] - num[0]` 看原本有幾個數字在前面，再減掉 pos (有出現的數字個數) 代表目前有幾個數字消失。
+    2. 所以下一個數字 (num[pos]) 是第 `num[pos] - num[0] - pos + 1` 個數字
+    3. 如果用 2. 代替 num 中的數值的話，我們要找 k 在 num 中的 upper_bound - 1
+        1. 如果有多個連續都是 k 的話 (下一個數字是 k th missing)，要找最後一個。
+3. TODO
+    1. 了解 excercise_binary_search 的寫法，以及 edge case 會是如何?
+    

@@ -79,6 +79,7 @@
 2. 對答案
     1. 按起始順序排，如果可以 merge 就 merge
     2. 不行 merge 就記錄下一個 interval
+    3. sort O(n log n)，解題 O(n)，共 O(n log n)
 3. 實做
     1. \[tech\] 在 class 內部的 costum_cmp (要給 sort) 的，要加 static 以去除原本預設的第一個 this 參數。詳情見[這篇](https://blog.csdn.net/u010982765/article/details/79021426) 
 ### 679

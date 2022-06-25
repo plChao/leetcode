@@ -71,11 +71,14 @@
         1. 但是如果有用到已經在 queue 紀錄裡的 block 要把它刪掉 => 為了有效率的刪除，queue 本身會用 link list 來做
         2. 為了有效率的搜尋上一次紀錄在 queue 的哪裡，會使用 unorder_map<key=key, value=* queue_block> 來在 O(1) 的複雜度來找到位置
 ### 56_merge_interval
-1. 分析
+1. tag: greedy, activity-selection problem, advance from basic
+2. 分析
     1. 原本想說是 greedy 找 max independent interval。
-    2. 結果有很多不同的情況
+        1. 原問題 activity-selection problem，找最多個不重疊的 intervals (greedy 解 O(nlogn + n))
+        2. 可以用這個精神
 2. 對答案
-    1. 一開始沒對直接實做
+    1. 按起始順序排，如果可以 merge 就 merge
+    2. 不行 merge 就記錄下一個 interval
 3. 實做
     1. \[tech\] 在 class 內部的 costum_cmp (要給 sort) 的，要加 static 以去除原本預設的第一個 this 參數。詳情見[這篇](https://blog.csdn.net/u010982765/article/details/79021426) 
 ### 679

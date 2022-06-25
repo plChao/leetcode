@@ -37,19 +37,16 @@ class DSU{
                 return find_root(root[a]);
             }
         }
-        void setUnion(int a, int b){
-            int root_a = find_root(a);
-            int root_b = find_root(b);
-            if(root_a != root_b){
-                if(rank[root_a] >= rank[root_b]){
-                    root[root_b] = root_a;
-                    if(rank[root_a] == rank[root_b]){
-                        rank[root_a] += 1;
-                    }
-                }
-                else{
-                    // rank[root_a] < rank[root_b]
-                    root[root_b] = root_a;
+        void setUnion(int x, int y) {
+            int rootX = find_root(x);
+            int rootY = find_root(y);
+            if (rootX != rootY) {
+                if (rank[rootX] >= rank[rootY]) {
+                    root[rootY] = rootX;
+                    rank[rootX] += rank[rootY];
+                } else {
+                    root[rootX] = rootY;
+                    rank[rootY] += rank[rootX];
                 }
             }
         }

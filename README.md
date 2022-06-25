@@ -165,4 +165,13 @@
         1. 如果有多個連續都是 k 的話 (下一個數字是 k th missing)，要找最後一個。
 3. TODO
     1. 了解 excercise_binary_search 的寫法，以及 edge case 會是如何?
+#### 1901_Find_Peak_Element_II
+1. TAG: binary search, peak search, special though
+1. 分析
+    1. 找 1D 的 peak 是 162 的題目，可以用 binary search 實現
+    2. 而把所有 row 的 max element 找出來形成 arrary，此 array 中的 peak，就會是 2D 的其中一個 peak
+    3. 如此 M*N 的 matrix 需要 log N 次的 M 來找到 peak，即 O(M log N)
+2. 實作
+    如上
+
     

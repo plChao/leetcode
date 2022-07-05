@@ -177,5 +177,15 @@
     3. 如此 M*N 的 matrix 需要 log N 次的 M 來找到 peak，即 O(M log N)
 2. 實作
     如上
-
+#### 1182
+1. TAG: binary_search
+2. 特性: color 種類有限(3 種)
+3. 分析
+    color 長度 N，queries 長度 Q
+    1. 用 array 記錄三個 color 的 index, 每次 query 用 binary search 找到最近的 index 再看 distance。
+        1. Time: O(N + Q log N)
+        2. Space: O(N)
+    2. 先 Two pass 計算每個 index 最近的 color，query 再直接給答案
+        1. Time: O(N) + O(Q)
+        2. Space: O(3N)
     

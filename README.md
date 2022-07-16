@@ -188,4 +188,13 @@
     2. 先 Two pass 計算每個 index 最近的 color，query 再直接給答案
         1. Time: O(N) + O(Q)
         2. Space: O(3N)
+#### 1231
+1. TAG: binary_search, greedy
+2. 分析
+    直接看
+3. 實作
+    把 optimize 改成 greedy 的 decition 再用 binary 解
+    巧克力長度 N, 總和 S, 要分成 K+1 份
+    1. Time: O(N + log(S/(K+1))) = O(N + log(S/K))
+    2. Space: O(1)
     

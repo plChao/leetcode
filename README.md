@@ -123,6 +123,19 @@
 2. 對答案
 3. 實作
     1. 要考慮好 recursive 的邊緣 case
+### 50_pow(x, n)
+1. 簡要: 給 x, n 算出 x^n
+2. 分析
+    1. x 乘 n 次 => TLE, Time: O(n), Space: O(1)
+        1. 用 while 實做 
+    2. x ^ n = x ^ (n/2) * x ^ (n/2)
+        1. Time: O(log n)
+        2. Space: O(log n)
+    3. 把 n 用 binary 表示，把 x ^ (2*i) 一個一個乘上去
+        1. Ex: 2^21
+        2. 21 = 10101
+        3. 2^21 = (2^16 * 1) * (2^8 * 0) * (2^4 * 1) * (2^2 * 0) * (2^1 * 1)
+        4. Time: O(log n), Space: O(1)
 ## 學會的技術
 ### 1
 #### 使用 hash_map

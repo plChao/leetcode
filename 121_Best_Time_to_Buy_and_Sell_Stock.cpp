@@ -20,13 +20,12 @@ void print_int_vec(vector<int> tar){
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        auto max_price_iter = max_element(prices.begin(), prices.end());
-        auto min_price_iter = min_element(prices.begin(), prices.end());
-        int strategy_a = *max_price_iter \
-            - *min_element(prices.begin(), max_price_iter);
-        int strategy_b = *max_element(min_price_iter, prices.end())\
-            - *min_price_iter;
-        return max(strategy_a, strategy_b);
+        int res = 0;
+        for(int i=0;i<prices.size();i++){
+            auto after_max = max_element(prices.begin() + i, prices.end());
+            res = max(res, *after_max - prices[i]);
+        }
+        return res;
     }
 };
 

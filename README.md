@@ -28,6 +28,18 @@
         1. 原本 hash_map 要存多個 index 來看是不是有重複
         2. [hash_map-2]() 進化1: 因為只有一個跟兩個的差別(三個重複跟兩個重複是一樣的)，所以用後面的 index 蓋掉前面的 index，然後確認的時候只要 hash_map 裡的 index 跟自己不同，就代表有重複。
         3. [hash_map-3]() 進化2: 可以邊加邊檢查，因為目前檢查跟前面數字的組合，跟後面數字組合由後面數字檢查。因為是先找之後才把目前元素加進去，所以不用檢查 index 是否跟自己不同。
+### 121_Best_Time_to_Buy_and_Sell_Stock
+1. tag: one-pass, advance from basic
+2. 分析
+    1. 方法 brute force
+        1. 時間複雜度 O(n^2)
+        2. 空間複雜度 O(1)
+2. 對答案
+    1. 用另一個想法的 brute force 可以優化成 tO(n), sO(1) 
+        1. 應用觀念: min(a~b) = min(min(a~b-1), b)
+    1. 看所有的 element 之前最小的 (最好的買點) 來看這個點可以產生的最好 profit 是多少
+3. 實做
+    1. 無特別技巧
 ### 191_Number_of_1_Bits
 1. 分析
     1. 最差做 32 次就是 O(1)

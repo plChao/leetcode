@@ -21,9 +21,10 @@ class Solution {
 public:
     int maxProfit(vector<int>& prices) {
         int res = 0;
-        for(int i=0;i<prices.size();i++){
-            auto befor_min = min_element(prices.begin(), prices.begin() + i);
-            res = max(res, prices[i] - *befor_min);
+        int befor_min = prices[0];
+        for(int i=1;i<prices.size();i++){
+            befor_min = min(befor_min, prices[i-1]);
+            res = max(res, prices[i] - befor_min);
         }
         return res;
     }

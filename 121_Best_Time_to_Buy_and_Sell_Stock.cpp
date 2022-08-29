@@ -22,8 +22,8 @@ public:
     int maxProfit(vector<int>& prices) {
         int res = 0;
         for(int i=0;i<prices.size();i++){
-            auto after_max = max_element(prices.begin() + i, prices.end());
-            res = max(res, *after_max - prices[i]);
+            auto befor_min = min_element(prices.begin(), prices.begin() + i);
+            res = max(res, prices[i] - *befor_min);
         }
         return res;
     }

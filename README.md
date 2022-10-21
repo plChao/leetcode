@@ -182,6 +182,12 @@
 ### 23 merge k sorted list
 1. 有 priority queue 的用法，有空可以看他的第二個參數是什麼
 2. 第三個參數的 cmp (a, b) 中，是問 b 的優先程度有沒有比 a 大，如果是要 max-queue，就回傳 a < b
+## leet_code_contest
+### [contest 299](https://leetcode.com/contest/weekly-contest-299/)
+#### check if x matrix
+1. tag: rule_base, easy
+#### 6100_count_number_of_ways_place_houses
+1. tag: dp
 ## leet_code_crack_algro
 ### binary search
 #### 1060_Missing_Element_in_Sorted_Array

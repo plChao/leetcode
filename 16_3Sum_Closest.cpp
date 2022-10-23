@@ -20,21 +20,21 @@ void print_int_vec(vector<int> tar){
 class Solution {
 public:
     int threeSumClosest(vector<int>& nums, int target) {
-        unordered_set<int> first_seen;
-        unordered_set<int> combine_seen;
+        // unordered_set<int> first_seen;
+        // unordered_set<int> combine_seen;
         sort(nums.begin(), nums.end());
         int closest_diff = nums[0] + nums[1] + nums[2] - target;
         // cout << closest_diff << endl;
         for(int i=0;i<nums.size()-2;i++){
-            if(!first_seen.insert(nums[i]).second){
-                // cout << "first seen skip" << endl;
-                continue;
-            }
+            // if(!first_seen.insert(nums[i]).second){
+            //     // cout << "first seen skip" << endl;
+            //     continue;
+            // }
             for(int j=i+1;j<nums.size()-1;j++){
                 int combine = nums[i] + nums[j];
-                if(!combine_seen.insert(nums[i] + nums[j]).second){
-                    continue;
-                }
+                // if(!combine_seen.insert(nums[i] + nums[j]).second){
+                //     continue;
+                // }
                 int remain = target - combine;
                 int upper_closest_idx = upper_bound(nums.begin()+j+1, nums.end(), remain) - nums.begin();
                 int lower_closest_idx = upper_closest_idx - 1;

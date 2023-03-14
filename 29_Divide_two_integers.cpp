@@ -32,7 +32,18 @@ public:
             dividend_new -= divisor_new;
             quotient += 1;
         }
-        return quotient*div_pos*first_pos;
+        cout << quotient << endl;
+        quotient = quotient*div_pos*first_pos;
+        if(quotient > INT_MAX){
+            return INT_MAX;
+        }
+        else if (quotient < INT_MIN){
+            return INT_MIN;
+        }
+        else{
+            return quotient;
+        }
+        
     }
 };
 

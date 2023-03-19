@@ -8,6 +8,7 @@
 #include<cctype>
 #include<set>
 #include<map> 
+#include<climits>
 using namespace std;
 
 void print_int_vec(vector<int> tar){
@@ -23,14 +24,16 @@ public:
         int first_pos = (dividend < 0)? -1: 1;
         int div_pos = (divisor < 0)? -1: 1;
         long quotient = 0;
-        long dividend_new = dividend;
-        long divisor_new = divisor;
-        dividend_new = abs(dividend_new);
-        divisor_new = abs(divisor_new);
+        long dividend_new = abs(dividend);
+        long divisor_new = abs(divisor);
         cout << dividend_new << " " << divisor_new << endl;
         while(dividend_new >= divisor_new){
-            dividend_new -= divisor_new;
-            quotient += 1;
+            int q = 0;
+            while(dividend_new > (divisor_new << (q+1))){
+                q++;
+            }
+            dividend_new -= (divisor_new << q);
+            quotient += (1 << q);
         }
         cout << quotient << endl;
         quotient = quotient*div_pos*first_pos;
@@ -53,5 +56,6 @@ int main(int argc, char const *argv[])
     int dividend = -2147483648;
     int divisor = -1;
     cout << solve.divide(dividend, divisor) << endl;
+    cout << solve.divide(10, 3) << endl;
     return 0;
 }

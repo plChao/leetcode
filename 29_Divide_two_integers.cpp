@@ -24,8 +24,10 @@ public:
         int first_pos = (dividend < 0)? -1: 1;
         int div_pos = (divisor < 0)? -1: 1;
         long quotient = 0;
-        long dividend_new = abs(dividend);
-        long divisor_new = abs(divisor);
+        long dividend_new = dividend;
+        long divisor_new = divisor;
+        dividend_new = abs(dividend_new);
+        divisor_new = abs(divisor_new);
         cout << dividend_new << " " << divisor_new << endl;
         while(dividend_new >= divisor_new){
             int q = 0;
